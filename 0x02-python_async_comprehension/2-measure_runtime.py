@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+"""completed: 0.0%)
+Import async_comprehension from the previous file and
+ write a measure_runtime coroutine that will execute async_comprehension
+four times in parallel using asyncio.gather.
+
+measure_runtime should measure the total runtime and return it.
+
+Notice that the total runtime is roughly 10 seconds, explain it to yourself."""
+import asyncio
+import time
+
+
+async_comprehension = __import__('1-async_comprehension').async_comprehension
+
+
+async def measure_runtime() -> float:
+    """returns runtime of 4 async_comprehension corountines"""
+    initial_time = time.perf_counter()
+    corountines = [async_comprehension() for i in range(4)]
+    result = await asyncio.gather(*corountines)
+    final_time = time.perf_counter()
+    return (final_time - initial_time)
