@@ -1,0 +1,10 @@
+from Typing import List
+"""contains an asynchronous function that call a function a number of times and returns a list of the result of the functions"""
+
+wait_random = __import__('0-basic_async_syntax').wait_random
+
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """
+	result = [wait_random(max_delay) for i in range(n)]
+	await async.gather(*result)
+	return result
