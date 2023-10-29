@@ -14,7 +14,7 @@ Decorate the method with @parameterized.expand
 to test the function for following inputs:"""
 import unittest
 from parameterized import parameterized
-from utils import (get_json, access_nested_map)
+from utils import (get_json, access_nested_map, memoize)
 from typing import (
     Mapping,
     Sequence,
@@ -64,3 +64,42 @@ class TestGetJson(unittest.TestCase):
             response = get_json(test_url)
             self.assertEqual(response, test_payload)
             mock_get.assert_called_once_with(test_url)
+
+
+class TestMemoize(unittest.TestCase):
+    """contains a test_memoize method."""
+
+    def test_memoize(self):
+        """memoizemethod"""
+        class TestClass:
+            """_summary_
+            """
+
+            def a_method(self):
+                """_summary_
+
+                Returns:
+                        _type_: _description_
+                """
+                return 42
+
+            @memoize
+            def a_property(self):
+                """_summary_
+
+                Returns:
+                        _type_: _description_
+                """
+                return self.a_method()
+
+        test_obj = TestClass()
+
+        with patch.object(test_obj, 'a_method') as mock_method:
+            mock_method.return_value = 42
+
+            result1 = test_obj.a_property
+            result2 = test_obj.a_property
+
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+            mock_method.assert_called_once()
